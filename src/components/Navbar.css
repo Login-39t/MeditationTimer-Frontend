@@ -1,0 +1,121 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: white;
+  margin-left: 12rem;
+  flex-shrink: 0;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 4rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 120px;
+}
+
+.navbar .login-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  font-weight: normal !important;
+  width: 140px;
+  white-space: nowrap;
+  padding: 0.5rem 1.5rem;
+}
+
+.navbar .login-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.get-started-btn {
+  background: #10b981;
+  color: white;
+  width: 120px;
+  white-space: nowrap;
+}
+
+.get-started-btn:hover {
+  background: #059669;
+}
+
+.user-name {
+  color: white;
+  font-size: 1rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-right: 10rem;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 120px;
+  white-space: nowrap;
+  transform: translateY(-10px);
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+  }
+  
+  .navbar-menu {
+    display: none;
+  }
+}

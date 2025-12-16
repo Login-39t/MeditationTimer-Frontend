@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Header from './Header'
+import { meditationService } from '../services/meditationService'
+import { authService } from '../services/authService'
 import Footer from './Footer'
+import BellSelector from './BellSelector'
 import './Timer.css'
 
 function Timer() {
@@ -10,10 +12,26 @@ function Timer() {
   const [timeLeft, setTimeLeft] = useState(300)
   const [isRunning, setIsRunning] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
+  const [selectedBell, setSelectedBell] = useState('basu')
+  const [sessionSaved, setSessionSaved] = useState(false)
   const intervalRef = useRef(null)
 
   const handleLogout = () => {
+    authService.logout()
     navigate('/login')
+  }
+
+  const saveSession = async () => {
+    try {
+      const sessionData = {
+        duration: Math.floor(duration / 60), // Convert to minutes
+        type: 'mindfulness'
+      }
+      await meditationService.createSession(sessionData)
+      console.log('Session saved successfully!')
+    } catch (error) {
+      console.error('Failed to save session:', error)
+    }
   }
 
   useEffect(() => {
@@ -23,6 +41,7 @@ function Timer() {
           if (prev <= 1) {
             setIsRunning(false)
             setIsComplete(true)
+            playBellSound(selectedBell)
             return 0
           }
           return prev - 1
@@ -32,13 +51,46 @@ function Timer() {
     return () => clearInterval(intervalRef.current)
   }, [isRunning, timeLeft])
 
+  useEffect(() => {
+    if (isComplete && !sessionSaved) {
+      saveSession()
+      setSessionSaved(true)
+    }
+  }, [isComplete, sessionSaved])
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60)
     const secs = seconds % 60
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
+  const playBellSound = (bellType) => {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    const oscillator = audioContext.createOscillator()
+    const gainNode = audioContext.createGain()
+    
+    oscillator.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+    
+    const frequencies = {
+      basu: 440,
+      tibetan: 528,
+      crystal: 660,
+      gong: 220
+    }
+    
+    oscillator.frequency.setValueAtTime(frequencies[bellType] || 440, audioContext.currentTime)
+    oscillator.type = 'sine'
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 2)
+    
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 2)
+  }
+
   const handleStart = () => {
+    playBellSound(selectedBell)
     setIsRunning(true)
     setIsComplete(false)
   }
@@ -51,6 +103,7 @@ function Timer() {
     setIsRunning(false)
     setTimeLeft(duration)
     setIsComplete(false)
+    setSessionSaved(false)
   }
 
   const handleDurationChange = (newDuration) => {
@@ -58,17 +111,28 @@ function Timer() {
     setTimeLeft(newDuration)
     setIsRunning(false)
     setIsComplete(false)
+    setSessionSaved(false)
   }
 
   const progress = ((duration - timeLeft) / duration) * 100
 
   return (
     <div className="timer-app">
-      <Header />
       <button className="logout-btn" onClick={handleLogout}>Logout</button>
       <main className="timer-container">
+        <div className="timer-hero">
+          <h1 className="hero-title">Free Online Meditation Timer</h1>
+          <p className="hero-subtitle">More time is spent meditating with our Timer than anywhere else.</p>
+          <p className="hero-subtitle">Customise your routine and drift away.</p>
+        </div>
+        
         <div className="timer-card">
-          <h1 className="title">Meditation Timer</h1>
+          <h1 className="title">Timer</h1>
+          
+          <BellSelector 
+            selectedBell={selectedBell} 
+            onBellChange={setSelectedBell} 
+          />
           
           <div className={`timer-circle ${isRunning ? 'running' : ''} ${isComplete ? 'complete' : ''}`}>
             <svg className="progress-ring" width="280" height="280">
@@ -93,6 +157,24 @@ function Timer() {
               <span className="time" aria-live="polite">{formatTime(timeLeft)}</span>
               {isComplete && <span className="complete-text">Complete!</span>}
             </div>
+          </div>
+
+          <div className="custom-time-card">
+            <label htmlFor="custom-time" className="custom-time-label">
+              Custom Time: {Math.floor(duration / 60)} minutes
+            </label>
+            <input
+              type="range"
+              id="custom-time"
+              className="time-slider"
+              min="60"
+              max="3600"
+              step="60"
+              value={duration}
+              onChange={(e) => handleDurationChange(Number(e.target.value))}
+              disabled={isRunning}
+              aria-label="Set custom meditation time"
+            />
           </div>
 
           <div className="controls" role="group" aria-label="Timer controls">
@@ -123,6 +205,8 @@ function Timer() {
             </button>
           </div>
 
+
+
           <div className="duration-selector" role="group" aria-label="Select meditation duration">
             {[300, 600, 900, 1200].map(dur => (
               <button
@@ -137,24 +221,6 @@ function Timer() {
               </button>
             ))}
           </div>
-        </div>
-        
-        <div className="custom-time-card">
-          <label htmlFor="custom-time" className="custom-time-label">
-            Custom Time: {Math.floor(duration / 60)} minutes
-          </label>
-          <input
-            type="range"
-            id="custom-time"
-            className="time-slider"
-            min="60"
-            max="3600"
-            step="60"
-            value={duration}
-            onChange={(e) => handleDurationChange(Number(e.target.value))}
-            disabled={isRunning}
-            aria-label="Set custom meditation time"
-          />
         </div>
       </main>
       <Footer />

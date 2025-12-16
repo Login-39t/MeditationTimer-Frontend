@@ -1,0 +1,108 @@
+.bell-selector {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.bell-label {
+  color: #9ca3af;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  margin-top: 0;
+}
+
+.bell-container {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  margin: 0 auto;
+  cursor: grab;
+  user-select: none;
+  position: relative;
+}
+
+.bell-container:active {
+  cursor: grabbing;
+}
+
+.bell-container::-webkit-scrollbar {
+  display: none;
+}
+
+.bell-slider {
+  display: flex;
+  gap: 6rem;
+  padding: 0 calc(50% - 60px);
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.bell-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+  width: 120px;
+  scroll-snap-align: center;
+}
+
+.bell-bowl {
+  width: 120px;
+  height: 60px;
+  background: linear-gradient(135deg, #d4af37, #ffd700, #b8860b);
+  border-radius: 0 0 60px 60px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+
+.bell-bowl::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  right: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), transparent);
+  border-radius: 0 0 40px 40px;
+}
+
+.bell-name {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.bell-arrow {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.bell-arrow:hover {
+  color: white;
+}
+
+.bell-arrow:focus {
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .bell-container {
+    gap: 1rem;
+  }
+  
+  .bell-bowl {
+    width: 100px;
+    height: 50px;
+  }
+  
+  .bell-arrow {
+    font-size: 1.5rem;
+  }
+}

@@ -2,9 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(-45deg, #e0c3fc, #ffd1dc, #ffecd2, #fcb69f);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background: #000000;
   position: relative;
 }
 
@@ -54,23 +52,49 @@
   animation: fadeIn 0.6s ease-in;
 }
 
+.timer-hero {
+  margin-bottom: 3rem;
+  max-width: 800px;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 400;
+  color: white;
+  margin-bottom: 0.2rem;
+  letter-spacing: 1px;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0.5rem 0;
+  font-weight: 300;
+}
+
 .timer-card {
-  background: rgba(255, 255, 255, 0.2);
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+}
+
+.timer-card {
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 30px;
   padding: 3rem 2.5rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
 }
 
 .custom-time-card {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   padding: 1.5rem 2rem;
-  margin-top: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -80,7 +104,7 @@
 .custom-time-label {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2d3748;
+  color: white;
   text-align: center;
 }
 
@@ -142,7 +166,7 @@
 }
 
 .title {
-  color: #2d3748;
+  color: white;
   font-size: 2.5rem;
   margin-bottom: 3rem;
   font-weight: 300;
@@ -219,6 +243,7 @@
   display: block;
   font-variant-numeric: tabular-nums;
   font-family: system-ui, -apple-system, sans-serif;
+  color: white;
 }
 
 .complete-text {
