@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-const API_URL = 'https://meditation-timer-b2w4hdc8z-login-ss-projects.vercel.app/api';
+const API_URL = 'https://meditationtimer-backend.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  
 });
 
 // Add token to requests if available
